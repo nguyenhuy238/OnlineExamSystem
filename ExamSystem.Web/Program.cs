@@ -2,6 +2,9 @@ using ExamSystem.Core.Interfaces;
 using ExamSystem.Core.Services;
 using ExamSystem.Data;
 using ExamSystem.Data.Repositories;
+using ExamSystem.Web.Configuration;
+using ExamSystem.Web.Filters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,9 +23,24 @@ builder.Services.AddScoped<IExamService, ExamService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IResultService, ResultService>();
 builder.Services.AddScoped<IExportService, ExportService>();
+builder.Services.AddScoped<AuthFilter>();
+builder.Services.Configure<AdminAccountOptions>(builder.Configuration.GetSection(AdminAccountOptions.SectionName));
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.AddService<AuthFilter>();
+});
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.ConfigureFilter(new ServiceFilterAttribute(typeof(AuthFilter)));
+});
 
 var app = builder.Build();
 
@@ -38,6 +56,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -145,11 +145,11 @@ namespace ExamSystem.Data.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "FullName", "Password", "StudentCode" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "an@student.edu", "Nguyen Van An", "$2a$11$M7A7Q6K9o62SDRbNQ91L6eYQwB0qe6rMtxhB0Qmk5A2u4pP5mIJ3K", "SV001" },
-                    { 2, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "binh@student.edu", "Tran Thi Binh", "$2a$11$M7A7Q6K9o62SDRbNQ91L6eYQwB0qe6rMtxhB0Qmk5A2u4pP5mIJ3K", "SV002" },
-                    { 3, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "cuong@student.edu", "Le Quoc Cuong", "$2a$11$M7A7Q6K9o62SDRbNQ91L6eYQwB0qe6rMtxhB0Qmk5A2u4pP5mIJ3K", "SV003" },
-                    { 4, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "dung@student.edu", "Pham Gia Dung", "$2a$11$M7A7Q6K9o62SDRbNQ91L6eYQwB0qe6rMtxhB0Qmk5A2u4pP5mIJ3K", "SV004" },
-                    { 5, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "em@student.edu", "Vo Ngoc Em", "$2a$11$M7A7Q6K9o62SDRbNQ91L6eYQwB0qe6rMtxhB0Qmk5A2u4pP5mIJ3K", "SV005" }
+                    { 1, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "an@student.edu", "Nguyen Van An", "$2a$11$SXXhIP8IvHp3rGX9DDNd.e5uLt5Glsx/v2DeRVI1yg9mdU2yj.7CC", "SV001" },
+                    { 2, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "binh@student.edu", "Tran Thi Binh", "$2a$11$SXXhIP8IvHp3rGX9DDNd.e5uLt5Glsx/v2DeRVI1yg9mdU2yj.7CC", "SV002" },
+                    { 3, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "cuong@student.edu", "Le Quoc Cuong", "$2a$11$SXXhIP8IvHp3rGX9DDNd.e5uLt5Glsx/v2DeRVI1yg9mdU2yj.7CC", "SV003" },
+                    { 4, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "dung@student.edu", "Pham Gia Dung", "$2a$11$SXXhIP8IvHp3rGX9DDNd.e5uLt5Glsx/v2DeRVI1yg9mdU2yj.7CC", "SV004" },
+                    { 5, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "em@student.edu", "Vo Ngoc Em", "$2a$11$SXXhIP8IvHp3rGX9DDNd.e5uLt5Glsx/v2DeRVI1yg9mdU2yj.7CC", "SV005" }
                 });
 
             migrationBuilder.InsertData(

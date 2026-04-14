@@ -5,7 +5,7 @@ namespace ExamSystem.Data.Configurations;
 internal static class SeedData
 {
     // BCrypt hash for plaintext: 123456
-    public const string DefaultStudentPasswordHash = "$2a$11$M7A7Q6K9o62SDRbNQ91L6eYQwB0qe6rMtxhB0Qmk5A2u4pP5mIJ3K";
+    public const string DefaultStudentPasswordHash = "$2a$11$SXXhIP8IvHp3rGX9DDNd.e5uLt5Glsx/v2DeRVI1yg9mdU2yj.7CC";
 
     public static readonly DateTime SeedDate = new(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
