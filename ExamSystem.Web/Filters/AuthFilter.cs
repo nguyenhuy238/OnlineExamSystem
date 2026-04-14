@@ -63,7 +63,7 @@ public class AuthFilter : IActionFilter, IAsyncPageFilter
         if (userId is null)
         {
             var returnUrl = $"{httpContext.Request.PathBase}{httpContext.Request.Path}{httpContext.Request.QueryString}";
-            result = new RedirectToActionResult("Login", "Auth", new { returnUrl });
+            result = new RedirectToPageResult("/Student/Login", new { returnUrl });
             return true;
         }
 
@@ -71,7 +71,7 @@ public class AuthFilter : IActionFilter, IAsyncPageFilter
         if (!string.IsNullOrWhiteSpace(requiredRole)
             && !string.Equals(requiredRole, role, StringComparison.OrdinalIgnoreCase))
         {
-            result = new RedirectToActionResult("AccessDenied", "Auth", null);
+            result = new RedirectToPageResult("/Student/AccessDenied");
             return true;
         }
 

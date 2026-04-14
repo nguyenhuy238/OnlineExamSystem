@@ -1,0 +1,38 @@
+@page
+@model ExamSystem.Web.Pages.Student.Exam.IndexModel
+@{
+    ViewData["Title"] = "Available Exams";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Available Exams</h1>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+@if (Model.Exams.Count == 0)
+{
+    <div class="alert alert-info">No active exams are available.</div>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var exam in Model.Exams)
+        {
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h2 class="h5">@exam.Title</h2>
+                        <p class="text-muted mb-2">@exam.Subject</p>
+                        <p class="mb-1"><strong>Duration:</strong> @exam.Duration minutes</p>
+                        <p class="mb-3"><strong>Pass score:</strong> @exam.PassScore.ToString("0.##")</p>
+                        <a asp-page="/Student/Exam/Take" asp-route-examId="@exam.Id" class="btn btn-primary">Take Exam</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

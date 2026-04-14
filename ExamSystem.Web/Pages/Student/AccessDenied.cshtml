@@ -1,0 +1,11 @@
+@page
+@model ExamSystem.Web.Pages.Student.AccessDeniedModel
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="text-center mt-5">
+    <h2 class="text-danger">Access Denied</h2>
+    <p>You do not have permission to access this page.</p>
+    <a asp-page="/Student/Login" class="btn btn-outline-primary">Go to Login</a>
+</div>

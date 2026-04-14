@@ -47,6 +47,12 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Question" asp-action="Index">Questions</a>
                                 </li>
                             }
+                            else if (string.Equals(role, "Student", StringComparison.OrdinalIgnoreCase))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-page="/Student/Exam/Index">My Exams</a>
+                                </li>
+                            }
                         }
                     </ul>
 
@@ -54,13 +60,13 @@
                         @if (userId.HasValue)
                         {
                             <span class="text-muted">@fullName (@role)</span>
-                            <form asp-controller="Auth" asp-action="Logout" method="post" class="m-0">
+                            <form asp-page="/Student/Logout" method="post" class="m-0">
                                 <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
                             </form>
                         }
                         else
                         {
-                            <a class="btn btn-primary btn-sm" asp-controller="Auth" asp-action="Login">Login</a>
+                            <a class="btn btn-primary btn-sm" asp-page="/Student/Login">Login</a>
                         }
                     </div>
                 </div>

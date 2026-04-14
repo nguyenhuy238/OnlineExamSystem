@@ -1,0 +1,102 @@
+@page
+@model ExamSystem.Web.Pages.Student.Exam.TakeModel
+@{
+    ViewData["Title"] = "Take Exam";
+}
+
+@if (Model.Exam is null)
+{
+    <div class="alert alert-danger">Exam not found.</div>
+    return;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="h4 mb-0">@Model.Exam.Title</h1>
+        <small class="text-muted">@Model.Exam.Subject</small>
+    </div>
+    <div class="text-end">
+        <div class="text-muted">Time Left</div>
+        <div id="exam-timer" class="h4 mb-0">--:--</div>
+    </div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<form method="post" id="exam-form">
+    <input type="hidden" asp-for="DurationSeconds" id="duration-seconds" />
+
+    @for (var i = 0; i < Model.Exam.Questions.Count; i++)
+    {
+        var question = Model.Exam.Questions.ElementAt(i);
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h2 class="h6">Question @(i + 1)</h2>
+                <p>@question.Content</p>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Answers[@question.Id]" id="q@(question.Id)-A" value="A" />
+                    <label class="form-check-label" for="q@(question.Id)-A">A. @question.OptionA</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Answers[@question.Id]" id="q@(question.Id)-B" value="B" />
+                    <label class="form-check-label" for="q@(question.Id)-B">B. @question.OptionB</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Answers[@question.Id]" id="q@(question.Id)-C" value="C" />
+                    <label class="form-check-label" for="q@(question.Id)-C">C. @question.OptionC</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Answers[@question.Id]" id="q@(question.Id)-D" value="D" />
+                    <label class="form-check-label" for="q@(question.Id)-D">D. @question.OptionD</label>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="d-flex justify-content-between">
+        <a asp-page="/Student/Exam/Index" class="btn btn-outline-secondary">Back</a>
+        <button type="submit" class="btn btn-success">Submit Exam</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        (() => {
+            const durationMinutes = @Model.Exam.Duration;
+            const totalSeconds = durationMinutes * 60;
+            const timerElement = document.getElementById("exam-timer");
+            const durationInput = document.getElementById("duration-seconds");
+            const examForm = document.getElementById("exam-form");
+
+            const startTime = Date.now();
+
+            function format(seconds) {
+                const m = Math.floor(seconds / 60).toString().padStart(2, "0");
+                const s = (seconds % 60).toString().padStart(2, "0");
+                return `${m}:${s}`;
+            }
+
+            function tick() {
+                const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                const remaining = Math.max(totalSeconds - elapsedSeconds, 0);
+                timerElement.textContent = format(remaining);
+                durationInput.value = elapsedSeconds;
+
+                if (remaining <= 300) {
+                    timerElement.classList.add("text-danger");
+                }
+
+                if (remaining === 0) {
+                    examForm.submit();
+                }
+            }
+
+            tick();
+            setInterval(tick, 1000);
+        })();
+    </script>
+}

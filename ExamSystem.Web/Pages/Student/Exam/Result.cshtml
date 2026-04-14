@@ -1,0 +1,81 @@
+@page
+@model ExamSystem.Web.Pages.Student.Exam.ResultModel
+@{
+    ViewData["Title"] = "Exam Result";
+}
+
+@if (Model.Result is null)
+{
+    <div class="alert alert-danger">Result not found.</div>
+    return;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Exam Result</h1>
+    <a asp-page="/Student/Exam/Index" class="btn btn-outline-secondary">Back to Exams</a>
+</div>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <p class="mb-1"><strong>Exam:</strong> @Model.Result.Exam?.Title</p>
+        <p class="mb-1"><strong>Student:</strong> @Model.Result.Student?.FullName</p>
+        <p class="mb-1"><strong>Submitted (UTC):</strong> @Model.Result.SubmittedAt.ToString("yyyy-MM-dd HH:mm:ss")</p>
+        <p class="mb-1"><strong>Duration:</strong> @Model.Result.Duration seconds</p>
+        <p class="mb-1"><strong>Score:</strong> @Model.Result.Score.ToString("0.##")</p>
+        <p class="mb-0">
+            <strong>Status:</strong>
+            @if (Model.Result.IsPassed)
+            {
+                <span class="badge bg-success">Passed</span>
+            }
+            else
+            {
+                <span class="badge bg-danger">Failed</span>
+            }
+        </p>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header">Answer Details</div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-sm mb-0">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Question</th>
+                    <th>Your Answer</th>
+                    <th>Correct Answer</th>
+                    <th>Result</th>
+                </tr>
+                </thead>
+                <tbody>
+                @{
+                    var details = Model.Result.Details.ToList();
+                }
+                @for (var i = 0; i < details.Count; i++)
+                {
+                    var item = details[i];
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@item.Question?.Content</td>
+                        <td>@(item.ChosenAnswer?.ToString() ?? "-")</td>
+                        <td>@item.Question?.CorrectAnswer</td>
+                        <td>
+                            @if (item.IsCorrect)
+                            {
+                                <span class="badge bg-success">Correct</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Wrong</span>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
