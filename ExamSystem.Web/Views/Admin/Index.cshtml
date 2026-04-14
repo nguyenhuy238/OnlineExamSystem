@@ -1,8 +1,99 @@
+@model ExamSystem.Core.Models.DashboardStats
 @{
-    ViewData["Title"] = "Admin";
+    ViewData["Title"] = "Admin Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-6">Admin Portal</h1>
-    <p class="lead">Authentication and role filter are active.</p>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Dashboard</h1>
+    <div class="btn-group">
+        <a asp-controller="Student" asp-action="Index" class="btn btn-outline-primary">Students</a>
+        <a asp-controller="Exam" asp-action="Index" class="btn btn-outline-primary">Exams</a>
+        <a asp-controller="Question" asp-action="Index" class="btn btn-outline-primary">Questions</a>
+    </div>
+</div>
+
+@if (TempData["Error"] is string errorMessage)
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Total Students</h2>
+                <p class="display-6 mb-0">@Model.TotalStudents</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Total Exams</h2>
+                <p class="display-6 mb-0">@Model.TotalExams</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Total Attempts</h2>
+                <p class="display-6 mb-0">@Model.TotalAttempts</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Pass Rate</h2>
+                <p class="display-6 mb-0">@Model.PassRate.ToString("0.##")%</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Average Score</h2>
+                <p class="display-6 mb-0">@Model.AverageScore.ToString("0.##")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Top Students</h2>
+                @if (Model.TopStudents.Count == 0)
+                {
+                    <p class="text-muted mb-0">No exam results yet.</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle mb-0">
+                            <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Avg Score</th>
+                                <th>Total Exams</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in Model.TopStudents)
+                            {
+                                <tr>
+                                    <td>@item.FullName</td>
+                                    <td>@item.AvgScore.ToString("0.##")</td>
+                                    <td>@item.TotalExams</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>

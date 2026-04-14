@@ -1,0 +1,49 @@
+@model IReadOnlyList<ExamSystem.Core.Models.Student>
+@{
+    ViewData["Title"] = "Students";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Students</h1>
+    <a asp-action="Create" class="btn btn-primary">Create Student</a>
+</div>
+
+@if (TempData["Success"] is string successMessage)
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+@if (TempData["Error"] is string errorMessage)
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Created At (UTC)</th>
+            <th class="text-end">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.StudentCode</td>
+                <td>@student.FullName</td>
+                <td>@student.Email</td>
+                <td>@student.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td class="text-end">
+                    <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <form asp-action="Delete" asp-route-id="@student.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this student?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

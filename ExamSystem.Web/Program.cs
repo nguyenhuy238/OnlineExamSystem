@@ -23,6 +23,7 @@ builder.Services.AddScoped<IExamService, ExamService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IResultService, ResultService>();
 builder.Services.AddScoped<IExportService, ExportService>();
+builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<AuthFilter>();
 builder.Services.Configure<AdminAccountOptions>(builder.Configuration.GetSection(AdminAccountOptions.SectionName));
 builder.Services.AddDistributedMemoryCache();

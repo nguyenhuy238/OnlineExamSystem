@@ -62,6 +62,16 @@ public class StudentService : IStudentService
         var existingStudent = await _studentRepository.GetByIdAsync(student.Id, cancellationToken)
             ?? throw new KeyNotFoundException($"Student with id {student.Id} was not found.");
 
+        if (await _studentRepository.AnyAsync(x => x.Id != student.Id && x.Email == student.Email, cancellationToken))
+        {
+            throw new InvalidOperationException("Email already exists.");
+        }
+
+        if (await _studentRepository.AnyAsync(x => x.Id != student.Id && x.StudentCode == student.StudentCode, cancellationToken))
+        {
+            throw new InvalidOperationException("Student code already exists.");
+        }
+
         existingStudent.FullName = student.FullName;
         existingStudent.StudentCode = student.StudentCode;
         existingStudent.Email = student.Email;
