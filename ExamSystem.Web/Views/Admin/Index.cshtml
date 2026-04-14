@@ -109,11 +109,12 @@
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/%40microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
     <script>
         (() => {
             const statusBadge = document.getElementById("signalr-status");
             const feed = document.getElementById("submission-feed");
+            let reconnectTimer = null;
 
             function setStatus(isConnected) {
                 statusBadge.textContent = isConnected ? "Connected" : "Disconnected";
@@ -132,6 +133,23 @@
                 }
             }
 
+            function scheduleReconnect() {
+                if (reconnectTimer !== null) {
+                    return;
+                }
+
+                reconnectTimer = window.setTimeout(() => {
+                    reconnectTimer = null;
+                    connect();
+                }, 3000);
+            }
+
+            if (!window.signalR) {
+                addFeedItem("SignalR client script was not loaded.");
+                setStatus(false);
+                return;
+            }
+
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("/examHub")
                 .withAutomaticReconnect()
@@ -147,24 +165,44 @@
                 addFeedItem(`${timestamp} - ${studentName} joined Exam #${examId}`);
             });
 
+            async function joinAdminGroup() {
+                try {
+                    await connection.invoke("JoinAdmin");
+                } catch (error) {
+                    const message = error && error.message ? error.message : "Unknown error";
+                    addFeedItem(`Connected but failed to join admin notification group: ${message}`);
+                }
+            }
+
+            connection.onreconnecting(() => setStatus(false));
+
             connection.onreconnected(async () => {
                 setStatus(true);
-                try {
-                    await connection.invoke("JoinAdmin");
-                } catch {
-                }
+                await joinAdminGroup();
             });
 
-            connection.onclose(() => setStatus(false));
+            connection.onclose((error) => {
+                setStatus(false);
+                if (error && error.message) {
+                    addFeedItem(`SignalR connection closed: ${error.message}`);
+                }
+                scheduleReconnect();
+            });
 
             async function connect() {
+                if (connection.state !== signalR.HubConnectionState.Disconnected) {
+                    return;
+                }
+
                 try {
                     await connection.start();
-                    await connection.invoke("JoinAdmin");
                     setStatus(true);
-                } catch {
+                    await joinAdminGroup();
+                } catch (error) {
                     setStatus(false);
-                    setTimeout(connect, 3000);
+                    const message = error && error.message ? error.message : "Unknown error";
+                    addFeedItem(`SignalR connect failed: ${message}`);
+                    scheduleReconnect();
                 }
             }
 

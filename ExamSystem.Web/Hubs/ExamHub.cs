@@ -15,7 +15,7 @@ public class ExamHub : Hub
         var groupName = BuildExamGroup(examId);
         await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
-        var studentName = Context.GetHttpContext()?.Session.GetString(SessionKeys.FullName) ?? "Unknown Student";
+        var studentName = GetSessionValue(SessionKeys.FullName) ?? "Unknown Student";
         await Clients.Group(groupName).SendAsync("StudentJoined", studentName, examId);
     }
 
@@ -38,7 +38,7 @@ public class ExamHub : Hub
     public async Task NotifySubmit(int examId, string studentName)
     {
         var safeName = string.IsNullOrWhiteSpace(studentName)
-            ? Context.GetHttpContext()?.Session.GetString(SessionKeys.FullName) ?? "Unknown Student"
+            ? GetSessionValue(SessionKeys.FullName) ?? "Unknown Student"
             : studentName.Trim();
 
         await Clients.Group("admin").SendAsync("StudentSubmitted", safeName, examId, DateTime.UtcNow);
@@ -46,8 +46,9 @@ public class ExamHub : Hub
 
     public async Task JoinAdmin()
     {
-        var role = Context.GetHttpContext()?.Session.GetString(SessionKeys.Role);
-        if (!string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
+        var role = GetSessionValue(SessionKeys.Role);
+        if (!string.IsNullOrWhiteSpace(role) &&
+            !string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
         {
             return;
         }
@@ -58,5 +59,23 @@ public class ExamHub : Hub
     private static string BuildExamGroup(int examId)
     {
         return $"exam-{examId}";
+    }
+
+    private string? GetSessionValue(string key)
+    {
+        var httpContext = Context.GetHttpContext();
+        if (httpContext is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            return httpContext.Session.GetString(key);
+        }
+        catch (InvalidOperationException)
+        {
+            return null;
+        }
     }
 }
