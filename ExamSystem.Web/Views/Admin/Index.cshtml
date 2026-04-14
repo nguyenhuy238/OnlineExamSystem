@@ -100,6 +100,29 @@
 
 <div class="card shadow-sm mt-3">
     <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Students Currently Taking Exam</span>
+        <span id="active-exam-count" class="badge bg-primary">0</span>
+    </div>
+    <div class="card-body">
+        <p id="active-exam-empty" class="text-muted mb-0">No students are currently taking exams.</p>
+        <div id="active-exam-table-wrapper" class="table-responsive d-none">
+            <table class="table table-sm align-middle mb-0">
+                <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Exam</th>
+                    <th>Started</th>
+                    <th>Connections</th>
+                </tr>
+                </thead>
+                <tbody id="active-exam-body"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mt-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
         <span>Realtime Submission Notifications</span>
         <span id="signalr-status" class="badge bg-secondary">Disconnected</span>
     </div>
@@ -114,12 +137,75 @@
         (() => {
             const statusBadge = document.getElementById("signalr-status");
             const feed = document.getElementById("submission-feed");
+            const activeCountBadge = document.getElementById("active-exam-count");
+            const activeExamEmpty = document.getElementById("active-exam-empty");
+            const activeExamTableWrapper = document.getElementById("active-exam-table-wrapper");
+            const activeExamBody = document.getElementById("active-exam-body");
             let reconnectTimer = null;
 
             function setStatus(isConnected) {
                 statusBadge.textContent = isConnected ? "Connected" : "Disconnected";
                 statusBadge.classList.toggle("bg-success", isConnected);
                 statusBadge.classList.toggle("bg-secondary", !isConnected);
+            }
+
+            function formatUtcTime(utcValue) {
+                if (!utcValue) {
+                    return "-";
+                }
+
+                const date = new Date(utcValue);
+                if (Number.isNaN(date.getTime())) {
+                    return "-";
+                }
+
+                return date.toLocaleString();
+            }
+
+            function renderActiveStudents(students) {
+                const list = Array.isArray(students) ? students : [];
+                activeCountBadge.textContent = list.length.toString();
+                activeExamBody.innerHTML = "";
+
+                if (list.length === 0) {
+                    activeExamEmpty.classList.remove("d-none");
+                    activeExamTableWrapper.classList.add("d-none");
+                    return;
+                }
+
+                activeExamEmpty.classList.add("d-none");
+                activeExamTableWrapper.classList.remove("d-none");
+
+                for (const item of list) {
+                    const row = document.createElement("tr");
+                    const studentName = item.studentName ?? item.StudentName ?? "Unknown Student";
+                    const examId = item.examId ?? item.ExamId ?? "-";
+                    const examTitle = item.examTitle ?? item.ExamTitle ?? `Exam #${examId}`;
+                    const startedAtUtc = item.startedAtUtc ?? item.StartedAtUtc;
+                    const rawConnectionCount = item.connectionCount ?? item.ConnectionCount;
+                    const parsedConnectionCount = Number.parseInt(rawConnectionCount, 10);
+
+                    const studentCell = document.createElement("td");
+                    studentCell.textContent = studentName;
+                    row.appendChild(studentCell);
+
+                    const examCell = document.createElement("td");
+                    examCell.textContent = `${examTitle} (#${examId})`;
+                    row.appendChild(examCell);
+
+                    const startedCell = document.createElement("td");
+                    startedCell.textContent = formatUtcTime(startedAtUtc);
+                    row.appendChild(startedCell);
+
+                    const connectionCell = document.createElement("td");
+                    const connectionCount = Number.isFinite(parsedConnectionCount)
+                        ? parsedConnectionCount
+                        : 1;
+                    connectionCell.textContent = connectionCount.toString();
+                    row.appendChild(connectionCell);
+
+                    activeExamBody.appendChild(row);
+                }
             }
 
             function addFeedItem(text) {
@@ -165,6 +251,10 @@
                 addFeedItem(`${timestamp} - ${studentName} joined Exam #${examId}`);
             });
 
+            connection.on("ActiveExamStudentsChanged", (students) => {
+                renderActiveStudents(students);
+            });
+
             async function joinAdminGroup() {
                 try {
                     await connection.invoke("JoinAdmin");
@@ -206,6 +296,7 @@
                 }
             }
 
+            renderActiveStudents([]);
             connect();
         })();
     </script>

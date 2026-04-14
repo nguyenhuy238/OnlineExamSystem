@@ -68,7 +68,8 @@
     <script>
         (() => {
             const examId = @Model.Exam.Id;
-            const studentName = "@(Model.HttpContext.Session.GetString(SessionKeys.FullName) ?? "Student")";
+            const studentName = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.HttpContext.Session.GetString(SessionKeys.FullName) ?? "Student"));
+            const examTitle = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Exam.Title));
             const durationMinutes = @Model.Exam.Duration;
             const totalSeconds = durationMinutes * 60;
             const timerElement = document.getElementById("exam-timer");
@@ -125,10 +126,25 @@
                 }
             });
 
+            connection.onreconnected(async () => {
+                await joinExamPresence();
+            });
+
+            async function joinExamPresence() {
+                if (connection.state !== signalR.HubConnectionState.Connected) {
+                    return;
+                }
+
+                try {
+                    await connection.invoke("JoinExam", examId, examTitle);
+                } catch {
+                }
+            }
+
             async function startSignalR() {
                 try {
                     await connection.start();
-                    await connection.invoke("JoinExam", examId);
+                    await joinExamPresence();
                 } catch {
                 }
             }
@@ -147,6 +163,11 @@
                         await connection.invoke("NotifySubmit", examId, studentName);
                     } catch {
                     }
+
+                    try {
+                        await connection.invoke("LeaveExam", examId);
+                    } catch {
+                    }
                 }
 
                 if (force) {
@@ -163,6 +184,14 @@
                 }
                 event.preventDefault();
                 await submitExam(false);
+            });
+
+            window.addEventListener("beforeunload", () => {
+                if (submitted || connection.state !== signalR.HubConnectionState.Connected) {
+                    return;
+                }
+
+                connection.invoke("LeaveExam", examId).catch(() => {});
             });
 
             tick();

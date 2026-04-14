@@ -5,6 +5,7 @@ using ExamSystem.Data.Repositories;
 using ExamSystem.Web.Configuration;
 using ExamSystem.Web.Filters;
 using ExamSystem.Web.Hubs;
+using ExamSystem.Web.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,7 @@ builder.Services.AddScoped<AuthFilter>();
 builder.Services.Configure<AdminAccountOptions>(builder.Configuration.GetSection(AdminAccountOptions.SectionName));
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<ExamPresenceTracker>();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
