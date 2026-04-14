@@ -97,3 +97,78 @@
         </div>
     </div>
 </div>
+
+<div class="card shadow-sm mt-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Realtime Submission Notifications</span>
+        <span id="signalr-status" class="badge bg-secondary">Disconnected</span>
+    </div>
+    <div class="card-body">
+        <ul id="submission-feed" class="list-group list-group-flush"></ul>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/%40microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
+    <script>
+        (() => {
+            const statusBadge = document.getElementById("signalr-status");
+            const feed = document.getElementById("submission-feed");
+
+            function setStatus(isConnected) {
+                statusBadge.textContent = isConnected ? "Connected" : "Disconnected";
+                statusBadge.classList.toggle("bg-success", isConnected);
+                statusBadge.classList.toggle("bg-secondary", !isConnected);
+            }
+
+            function addFeedItem(text) {
+                const item = document.createElement("li");
+                item.className = "list-group-item";
+                item.textContent = text;
+                feed.prepend(item);
+
+                while (feed.children.length > 20) {
+                    feed.removeChild(feed.lastChild);
+                }
+            }
+
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/examHub")
+                .withAutomaticReconnect()
+                .build();
+
+            connection.on("StudentSubmitted", (studentName, examId, utcTime) => {
+                const timestamp = new Date(utcTime).toLocaleString();
+                addFeedItem(`${timestamp} - ${studentName} submitted Exam #${examId}`);
+            });
+
+            connection.on("StudentJoined", (studentName, examId) => {
+                const timestamp = new Date().toLocaleString();
+                addFeedItem(`${timestamp} - ${studentName} joined Exam #${examId}`);
+            });
+
+            connection.onreconnected(async () => {
+                setStatus(true);
+                try {
+                    await connection.invoke("JoinAdmin");
+                } catch {
+                }
+            });
+
+            connection.onclose(() => setStatus(false));
+
+            async function connect() {
+                try {
+                    await connection.start();
+                    await connection.invoke("JoinAdmin");
+                    setStatus(true);
+                } catch {
+                    setStatus(false);
+                    setTimeout(connect, 3000);
+                }
+            }
+
+            connect();
+        })();
+    </script>
+}

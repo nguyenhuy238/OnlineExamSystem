@@ -64,8 +64,11 @@
 </form>
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/%40microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
     <script>
         (() => {
+            const examId = @Model.Exam.Id;
+            const studentName = "@(Model.HttpContext.Session.GetString(SessionKeys.FullName) ?? "Student")";
             const durationMinutes = @Model.Exam.Duration;
             const totalSeconds = durationMinutes * 60;
             const timerElement = document.getElementById("exam-timer");
@@ -73,6 +76,12 @@
             const examForm = document.getElementById("exam-form");
 
             const startTime = Date.now();
+            let submitted = false;
+
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/examHub")
+                .withAutomaticReconnect()
+                .build();
 
             function format(seconds) {
                 const m = Math.floor(seconds / 60).toString().padStart(2, "0");
@@ -91,12 +100,74 @@
                 }
 
                 if (remaining === 0) {
-                    examForm.submit();
+                    submitExam(true);
+                    return;
+                }
+
+                if (connection.state === signalR.HubConnectionState.Connected) {
+                    connection.invoke("TimerTick", examId, remaining).catch(() => {});
                 }
             }
 
+            connection.on("TimerUpdate", (seconds, incomingExamId) => {
+                if (incomingExamId !== examId) {
+                    return;
+                }
+                timerElement.textContent = format(seconds);
+            });
+
+            connection.on("Warning", (message, incomingExamId) => {
+                if (incomingExamId !== examId) {
+                    return;
+                }
+                if (message) {
+                    window.alert(message);
+                }
+            });
+
+            async function startSignalR() {
+                try {
+                    await connection.start();
+                    await connection.invoke("JoinExam", examId);
+                } catch {
+                }
+            }
+
+            async function submitExam(force = false) {
+                if (submitted) {
+                    return;
+                }
+                submitted = true;
+
+                const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                durationInput.value = elapsedSeconds;
+
+                if (connection.state === signalR.HubConnectionState.Connected) {
+                    try {
+                        await connection.invoke("NotifySubmit", examId, studentName);
+                    } catch {
+                    }
+                }
+
+                if (force) {
+                    examForm.submit();
+                    return;
+                }
+
+                examForm.submit();
+            }
+
+            examForm.addEventListener("submit", async (event) => {
+                if (submitted) {
+                    return;
+                }
+                event.preventDefault();
+                await submitExam(false);
+            });
+
             tick();
             setInterval(tick, 1000);
+            startSignalR();
         })();
     </script>
 }
