@@ -26,13 +26,9 @@ public class ResultService : IResultService
         int durationSeconds = 0,
         CancellationToken cancellationToken = default)
     {
-        var studentTask = _studentRepository.GetByIdAsync(studentId, cancellationToken);
-        var examTask = _examRepository.GetExamWithQuestionsAsync(examId, cancellationToken);
-        await Task.WhenAll(studentTask, examTask);
-
-        var student = studentTask.Result
+        var student = await _studentRepository.GetByIdAsync(studentId, cancellationToken)
             ?? throw new KeyNotFoundException($"Student with id {studentId} was not found.");
-        var exam = examTask.Result
+        var exam = await _examRepository.GetExamWithQuestionsAsync(examId, cancellationToken)
             ?? throw new KeyNotFoundException($"Exam with id {examId} was not found.");
 
         var questions = exam.Questions.ToList();
@@ -85,15 +81,9 @@ public class ResultService : IResultService
 
     public async Task<DashboardStats> GetDashboardStatsAsync(CancellationToken cancellationToken = default)
     {
-        var studentsTask = _studentRepository.GetAllAsync(cancellationToken);
-        var examsTask = _examRepository.GetAllAsync(cancellationToken);
-        var resultsTask = _resultRepository.GetAllWithRelationsAsync(cancellationToken);
-
-        await Task.WhenAll(studentsTask, examsTask, resultsTask);
-
-        var students = studentsTask.Result;
-        var exams = examsTask.Result;
-        var results = resultsTask.Result;
+        var students = await _studentRepository.GetAllAsync(cancellationToken);
+        var exams = await _examRepository.GetAllAsync(cancellationToken);
+        var results = await _resultRepository.GetAllWithRelationsAsync(cancellationToken);
 
         var totalAttempts = results.Count;
         var passRate = totalAttempts == 0 ? 0 : results.Count(x => x.IsPassed) * 100.0 / totalAttempts;
