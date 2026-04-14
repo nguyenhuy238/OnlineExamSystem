@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "ExamSystem.Console.Client/1.0.0": {
+        "dependencies": {
+          "ExamSystem.Core": "1.0.0"
+        },
+        "runtime": {
+          "ExamSystem.Console.Client.dll": {}
+        }
+      },
+      "ExamSystem.Core/1.0.0": {
+        "runtime": {
+          "ExamSystem.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ExamSystem.Console.Client/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ExamSystem.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

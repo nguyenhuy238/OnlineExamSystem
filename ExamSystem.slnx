@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="ExamSystem.Console.Client/ExamSystem.Console.Client.csproj" />
+  <Project Path="ExamSystem.Console.Server/ExamSystem.Console.Server.csproj" />
+  <Project Path="ExamSystem.Core/ExamSystem.Core.csproj" />
+  <Project Path="ExamSystem.Data/ExamSystem.Data.csproj" />
+  <Project Path="ExamSystem.Web/ExamSystem.Web.csproj" />
+</Solution>

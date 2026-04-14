@@ -1,0 +1,11 @@
+C:\TestSystem_PRN222_Project\ExamSystem.Core\obj\Debug\net8.0\ExamSystem.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\TestSystem_PRN222_Project\ExamSystem.Core\obj\Debug\net8.0\ExamSystem.Core.AssemblyInfoInputs.cache
+C:\TestSystem_PRN222_Project\ExamSystem.Core\obj\Debug\net8.0\ExamSystem.Core.AssemblyInfo.cs
+C:\TestSystem_PRN222_Project\ExamSystem.Core\obj\Debug\net8.0\ExamSystem.Core.csproj.CoreCompileInputs.cache
+C:\TestSystem_PRN222_Project\ExamSystem.Core\obj\Debug\net8.0\ExamSystem.Core.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Core\obj\Debug\net8.0\refint\ExamSystem.Core.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Core\obj\Debug\net8.0\ExamSystem.Core.pdb
+C:\TestSystem_PRN222_Project\ExamSystem.Core\bin\Debug\net8.0\ExamSystem.Core.deps.json
+C:\TestSystem_PRN222_Project\ExamSystem.Core\bin\Debug\net8.0\ExamSystem.Core.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Core\bin\Debug\net8.0\ExamSystem.Core.pdb
+C:\TestSystem_PRN222_Project\ExamSystem.Core\obj\Debug\net8.0\ref\ExamSystem.Core.dll

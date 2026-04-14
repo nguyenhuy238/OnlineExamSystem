@@ -1,0 +1,17 @@
+C:\TestSystem_PRN222_Project\ExamSystem.Data\bin\Debug\net8.0\ExamSystem.Data.deps.json
+C:\TestSystem_PRN222_Project\ExamSystem.Data\bin\Debug\net8.0\ExamSystem.Data.runtimeconfig.json
+C:\TestSystem_PRN222_Project\ExamSystem.Data\bin\Debug\net8.0\ExamSystem.Data.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Data\bin\Debug\net8.0\ExamSystem.Data.pdb
+C:\TestSystem_PRN222_Project\ExamSystem.Data\bin\Debug\net8.0\ExamSystem.Core.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Data\bin\Debug\net8.0\ExamSystem.Core.pdb
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSystem.Data.csproj.AssemblyReference.cache
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSystem.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSystem.Data.AssemblyInfoInputs.cache
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSystem.Data.AssemblyInfo.cs
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSystem.Data.csproj.CoreCompileInputs.cache
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSyst.2184311B.Up2Date
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSystem.Data.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\refint\ExamSystem.Data.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSystem.Data.pdb
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSystem.Data.genruntimeconfig.cache
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ref\ExamSystem.Data.dll
