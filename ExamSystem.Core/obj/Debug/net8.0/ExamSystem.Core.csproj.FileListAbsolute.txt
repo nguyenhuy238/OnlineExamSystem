@@ -9,3 +9,5 @@ C:\TestSystem_PRN222_Project\ExamSystem.Core\bin\Debug\net8.0\ExamSystem.Core.de
 C:\TestSystem_PRN222_Project\ExamSystem.Core\bin\Debug\net8.0\ExamSystem.Core.dll
 C:\TestSystem_PRN222_Project\ExamSystem.Core\bin\Debug\net8.0\ExamSystem.Core.pdb
 C:\TestSystem_PRN222_Project\ExamSystem.Core\obj\Debug\net8.0\ref\ExamSystem.Core.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Core\obj\Debug\net8.0\ExamSystem.Core.csproj.AssemblyReference.cache
+C:\TestSystem_PRN222_Project\ExamSystem.Core\obj\Debug\net8.0\ExamSystem.Core.sourcelink.json

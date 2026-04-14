@@ -10,6 +10,18 @@ public class ResultRepository : GenericRepository<ExamResult>, IResultRepository
     {
     }
 
+    public async Task<IReadOnlyList<ExamResult>> GetAllWithRelationsAsync(CancellationToken cancellationToken = default)
+    {
+        return await DbSet
+            .AsNoTracking()
+            .Include(x => x.Student)
+            .Include(x => x.Exam)
+            .Include(x => x.Details)
+                .ThenInclude(x => x.Question)
+            .OrderByDescending(x => x.SubmittedAt)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<IReadOnlyList<ExamResult>> GetResultsByStudentAsync(int studentId, CancellationToken cancellationToken = default)
     {
         return await DbSet

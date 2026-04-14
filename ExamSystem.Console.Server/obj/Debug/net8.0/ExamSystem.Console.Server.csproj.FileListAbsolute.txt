@@ -66,3 +66,5 @@ C:\TestSystem_PRN222_Project\ExamSystem.Console.Server\obj\Debug\net8.0\refint\E
 C:\TestSystem_PRN222_Project\ExamSystem.Console.Server\obj\Debug\net8.0\ExamSystem.Console.Server.pdb
 C:\TestSystem_PRN222_Project\ExamSystem.Console.Server\obj\Debug\net8.0\ExamSystem.Console.Server.genruntimeconfig.cache
 C:\TestSystem_PRN222_Project\ExamSystem.Console.Server\obj\Debug\net8.0\ref\ExamSystem.Console.Server.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Console.Server\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Console.Server\obj\Debug\net8.0\ExamSystem.Console.Server.sourcelink.json

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "KcrnKoKvC1A=",
+  "dgSpecHash": "T+rwkUm1fH0=",
   "success": true,
   "projectFilePath": "C:\\TestSystem_PRN222_Project\\ExamSystem.Console.Client\\ExamSystem.Console.Client.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\TestSystem_PRN222_Project\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

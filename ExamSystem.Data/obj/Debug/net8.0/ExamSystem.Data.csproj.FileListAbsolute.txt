@@ -15,3 +15,4 @@ C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\refint\ExamSystem.
 C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSystem.Data.pdb
 C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSystem.Data.genruntimeconfig.cache
 C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ref\ExamSystem.Data.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Data\obj\Debug\net8.0\ExamSystem.Data.sourcelink.json

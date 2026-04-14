@@ -142,3 +142,11 @@ C:\TestSystem_PRN222_Project\ExamSystem.Web\obj\Debug\net8.0\refint\ExamSystem.W
 C:\TestSystem_PRN222_Project\ExamSystem.Web\obj\Debug\net8.0\ExamSystem.Web.pdb
 C:\TestSystem_PRN222_Project\ExamSystem.Web\obj\Debug\net8.0\ExamSystem.Web.genruntimeconfig.cache
 C:\TestSystem_PRN222_Project\ExamSystem.Web\obj\Debug\net8.0\ref\ExamSystem.Web.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Web\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Web\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Web\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Web\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Web\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Web\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Web\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\TestSystem_PRN222_Project\ExamSystem.Web\obj\Debug\net8.0\ExamSystem.Web.sourcelink.json

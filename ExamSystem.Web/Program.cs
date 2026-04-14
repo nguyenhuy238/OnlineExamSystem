@@ -1,4 +1,5 @@
 using ExamSystem.Core.Interfaces;
+using ExamSystem.Core.Services;
 using ExamSystem.Data;
 using ExamSystem.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,10 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IExamRepository, ExamRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IResultRepository, ResultRepository>();
+builder.Services.AddScoped<IExamService, ExamService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IResultService, ResultService>();
+builder.Services.AddScoped<IExportService, ExportService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
